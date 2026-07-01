@@ -1,14 +1,14 @@
 # JyotirVega Exoplanet Pipeline — Requirements (Streamlit Cloud compatible)
 # ISRO BAH 2026 · Problem Statement 7 · Team JyotirVega · Aurixys
 #
-# STREAMLIT CLOUD NOTES:
-#   - batman-package requires gcc; added packages.txt for apt build tools
-#   - tensorflow replaced with tensorflow-cpu to avoid GPU bloat / timeouts
-#   - All versions pinned to known-working Streamlit Cloud combos
+# KEY FIX: numpy must NOT be capped at <2.0.0
+# Streamlit Cloud ships numpy 2.4+ and tensorflow-cpu 2.21 requires it.
+# The previous <2.0.0 cap caused pip to attempt a downgrade that conflicted
+# with tensorflow, producing "installer returned non-zero exit code".
 
 # ── Core astronomy ────────────────────────────────────────────────────────────
 lightkurve>=2.4.0
-astropy>=5.3.0,<7.0.0
+astropy>=5.3.0
 astroquery>=0.4.6
 
 # ── Transit detection ─────────────────────────────────────────────────────────
@@ -24,11 +24,11 @@ corner>=2.2.2
 scipy>=1.10.0
 
 # ── Machine learning ──────────────────────────────────────────────────────────
-tensorflow-cpu>=2.12.0,<2.16.0
+tensorflow-cpu>=2.12.0
 scikit-learn>=1.3.0
 
-# ── Data / numerics ───────────────────────────────────────────────────────────
-numpy>=1.24.0,<2.0.0
+# ── Data / numerics — NO upper cap on numpy ───────────────────────────────────
+numpy>=1.26.0
 pandas>=2.0.0
 
 # ── Visualisation ─────────────────────────────────────────────────────────────
